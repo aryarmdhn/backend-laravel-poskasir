@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Register CBT')
+@section('title', 'Register')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -89,6 +89,9 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="text-muted mt-5 text-center">
+        Already have an account? <a href="{{ route('login') }}">Join Here</a>
     </div>
 @endsection
 

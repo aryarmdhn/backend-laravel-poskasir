@@ -32,13 +32,39 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>All Posts</h4>
+                                <h4>All Products</h4>
                             </div>
                             <div class="card-body">
+                                <div class="float-left">
+                                    <form action="{{ route('products.index') }}" method="GET">
+                                        <div class="input-group">
+                                            <select name="category_id" class="form-control selectric">
+                                                <option value="">-- Pilih Kategori --</option>
+                                                <option value="">All</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        {{ $selectedCategory == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary">Filter</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Tampilkan tabel produk sesuai dengan filter -->
+                                <table>
+                                    <!-- Tabel produk -->
+                                </table>
+
                                 <div class="float-right">
                                     <form method="GET" action="{{ route('products.index') }}">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" name="name">
+                                            <input type="text" class="form-control" placeholder="Search Product"
+                                                name="name">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                             </div>
@@ -55,13 +81,13 @@
                                             <th>Name</th>
                                             <th>Category</th>
                                             <th>Price</th>
-                                            <th>Status</th>
-                                            <th>Favorite</th>
-                                            <th>Created At</th>
+                                            <th>Stock</th>
+                                            {{-- <th>Created At</th> --}}
                                             <th>Action</th>
                                         </tr>
                                         @foreach ($products as $product)
                                             <tr>
+
 
                                                 <td>{{ $product->name }}
                                                 </td>
@@ -69,15 +95,16 @@
                                                     {{ $product->category->name }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->price }}
+                                                    @currency($product->price)
                                                 </td>
                                                 <td>
-                                                    {{ $product->status == 1 ? 'Active' : 'Inactive' }}
+                                                    {{ $product->stock }} Pcs
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     {{ $product->is_favorite == 0 ? 'No' : 'Yes' }}
-                                                </td>
-                                                <td>{{ $product->created_at }}</td>
+                                                </td> --}}
+                                                {{-- <td>{{ \Carbon\Carbon::parse($product->created_at)->translatedFormat('d F Y H:i') }}
+                                                </td> --}}
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('products.edit', $product->id) }}'
@@ -86,8 +113,8 @@
                                                             Edit
                                                         </a>
 
-                                                        <form action="{{ route('products.destroy', $product->id) }}" method="POST"
-                                                            class="ml-2">
+                                                        <form action="{{ route('products.destroy', $product->id) }}"
+                                                            method="POST" class="ml-2">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />

@@ -27,31 +27,40 @@
                         @include('layouts.alert')
                     </div>
                 </div>
-                <h2 class="section-title">Users</h2>
-                <p class="section-lead">
-                    You can manage all Users, such as editing, deleting and more.
-                </p>
-
 
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>All Posts</h4>
+                                <h4>All Users</h4>
                             </div>
                             <div class="card-body">
                                 <div class="float-left">
-                                    <select class="form-control selectric">
-                                        <option>Action For Selected</option>
-                                        <option>Move to Draft</option>
-                                        <option>Move to Pending</option>
-                                        <option>Delete Pemanently</option>
-                                    </select>
+                                    <form action="{{ route('users.index') }}" method="GET">
+                                        <div class="input-group">
+                                            <select name="role" class="form-control selectric">
+                                                <option value="">-- Pilih Role --</option>
+                                                <option value="">All</option>
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role }}"
+                                                        {{ request('role') == $role ? 'selected' : '' }}>
+                                                        {{ $role }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary">Filter</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
+
+
                                 <div class="float-right">
                                     <form method="GET" action="{{ route('users.index') }}">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" name="name">
+                                            <input type="text" class="form-control" placeholder="Search users"
+                                                name="name">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                             </div>
@@ -65,15 +74,23 @@
                                     <table class="table-striped table">
                                         <tr>
 
+                                            <th>Avatar</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Role</th>
-                                            <th>Created At</th>
+                                            {{-- <th>Created At</th> --}}
                                             <th>Action</th>
                                         </tr>
                                         @foreach ($users as $user)
                                             <tr>
 
+                                                <td>
+                                                    <div class="avatar-item mb-0">
+                                                        <img alt="image" src="{{ asset('img/avatar/avatar-5.png') }}"
+                                                            class="img-fluid" data-toggle="tooltip"
+                                                            title="{{ $user->name }}" width="40px">
+                                                    </div>
+                                                </td>
                                                 <td>{{ $user->name }}
                                                 </td>
                                                 <td>
@@ -82,8 +99,35 @@
                                                 <td>
                                                     {{ $user->role }}
                                                 </td>
-                                                <td>{{ $user->created_at }}</td>
+                                                {{-- <td>{{ \Carbon\Carbon::parse($user->created_at)->translatedFormat('d F Y H:i') }}
+                                                </td> --}}
                                                 <td>
+                                                    <div class="d-flex justify-content-center">
+                                                        @if (auth()->user()->role == 'admin' && auth()->user()->id != $user->id && $user->role != 'admin')
+                                                            <a href='{{ route('users.edit', $user->id) }}'
+                                                                class="btn btn-primary btn-action mr-1"
+                                                                data-toggle="tooltip" title="Edit"><i
+                                                                    class="fas fa-pencil-alt"></i></a>
+
+                                                            <form action="{{ route('users.destroy', $user->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+
+                                                                <button type="submit" class="btn btn-danger btn-action"
+                                                                    data-toggle="tooltip" title="Delete"
+                                                                    onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            @if (auth()->user()->role != 'staff' && $user->role == 'admin')
+                                                                <span class="text-muted">Dilarang!</span>
+                                                            @endif
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                {{-- <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('users.edit', $user->id) }}'
                                                             class="btn btn-sm btn-info btn-icon">
@@ -91,8 +135,8 @@
                                                             Edit
                                                         </a>
 
-                                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                                            class="ml-2">
+                                                        <form action="{{ route('users.destroy', $user->id) }}"
+                                                            method="POST" class="ml-2">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />
@@ -101,7 +145,7 @@
                                                             </button>
                                                         </form>
                                                     </div>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 

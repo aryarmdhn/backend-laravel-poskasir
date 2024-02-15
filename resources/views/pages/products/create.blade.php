@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="number"
+                                <input type="text"
                                     class="form-control @error('price')
                                 is-invalid
                             @enderror"
@@ -75,13 +75,13 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label>Stock</label>
+                            <div class="input-group mb-3">
                                 <input type="number"
                                     class="form-control @error('stock')
                                 is-invalid
                             @enderror"
-                                    name="stock">
+                                    name="stock" placeholder="Stock">
+                                <div class="input-group-append"><span class="input-group-text">PCS</span></div>
                                 @error('stock')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -91,7 +91,8 @@
 
                             <div class="form-group">
                                 <label class="form-label">Category</label>
-                                <select class="form-control selectric @error('categoy_id')is invalid @enderror" name="category_id" >
+                                <select class="form-control selectric @error('categoy_id')is invalid @enderror"
+                                    name="category_id">
                                     <option value="">Choose Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -116,7 +117,8 @@
                                 <label class="form-label w-100">Status Product</label>
                                 <div class="selectgroup-items">
                                     <label class="selectgroup-items">
-                                        <input type="radio" name="status" value="1" class="selectgroup-input" checked="">
+                                        <input type="radio" name="status" value="1" class="selectgroup-input"
+                                            checked="">
                                         <span class="selectgroup-button">Active</span>
                                     </label>
                                     <label class="selectgroup-items">
@@ -130,7 +132,8 @@
                                 <label class="form-label w-100">Is Favorite</label>
                                 <div class="selectgroup-items">
                                     <label class="selectgroup-items">
-                                        <input type="radio" name="is_favorite" value="1" class="selectgroup-input" checked="">
+                                        <input type="radio" name="is_favorite" value="1" class="selectgroup-input"
+                                            checked="">
                                         <span class="selectgroup-button">Yes</span>
                                     </label>
                                     <label class="selectgroup-items">

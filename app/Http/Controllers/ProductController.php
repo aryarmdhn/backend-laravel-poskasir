@@ -5,13 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(10);
-        return view('pages.products.index', compact('products'));
+        $categories = Category::all();
+        $selectedCategory = $request->input('category_id');
+        $searchName = $request->input('name');
+    
+        $query = Product::query();
+    
+        // Jika kategori dipilih, filter produk sesuai dengan kategori
+        if ($selectedCategory) {
+            $query->where('category_id', $selectedCategory);
+        }
+    
+        // Jika nama untuk pencarian diinput, tambahkan kondisi pencarian
+        $query->when($searchName, function ($q) use ($searchName) {
+            $q->where('name', 'like', '%' . $searchName . '%');
+        });
+    
+        $products = $query->paginate(10);
+    
+        return view('pages.products.index', compact('products', 'categories', 'selectedCategory', 'searchName'));
     }
 
     public function create()
@@ -41,15 +59,15 @@ class ProductController extends Controller
         $product->status = $request->status;
         $product->is_favorite = $request->is_favorite;
         
-        $product->save();
 
         // save image
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $image->storeAs('public/products', $product->id . '.' . $image->getClientOriginalExtension());
-            $product->image = 'storage/products/' . $product->id . '.' . $image->getClientOriginalExtension();
-            $product->save();
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/products', $filename);
+            $product->image = $filename;
         }
+    
+        $product->save();
 
         return redirect()->route('products.index')->with('success', 'Product berhasil dibuat!');
     }
@@ -86,14 +104,15 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->status = $request->status;
         $product->is_favorite = $request->is_favorite;
-        $product->save();
+       
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $image->storeAs('public/products', $product->id . '.' . $image->getClientOriginalExtension());
-            $product->image = 'storage/products/' . $product->id . '.' . $image->getClientOriginalExtension();
-            $product->save();
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/products', $filename);
+            $product->image = $filename;
         }
+    
+        $product->save();
 
         return redirect()->route('products.index')->with('success', 'Product berhasil Di Edit!');
     }

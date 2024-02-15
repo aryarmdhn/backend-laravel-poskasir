@@ -53,7 +53,6 @@
                                         <tr>
 
                                             <th>Name</th>
-                                            
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -62,8 +61,9 @@
 
                                                 <td>{{ $category->name }}
                                                 </td>
-                                               
-                                                <td>{{ $category->created_at }}</td>
+
+                                                <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('d F Y H:i') }}
+                                                </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('categories.edit', $category->id) }}'
@@ -72,8 +72,8 @@
                                                             Edit
                                                         </a>
 
-                                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
-                                                            class="ml-2">
+                                                        <form action="{{ route('categories.destroy', $category->id) }}"
+                                                            method="POST" class="ml-2">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />

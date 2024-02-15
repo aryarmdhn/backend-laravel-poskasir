@@ -1,96 +1,132 @@
-@extends('layouts.auth')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Login')
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Login &mdash; MyKedai</title>
 
-@push('style')
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{{ asset('library/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- CSS Libraries -->
-    <link rel="stylesheet"
-        href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
-@endpush
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
 
-@section('main')
-    <div class="card card-primary">
-        <div class="card-header">
-            <h4>Login</h4>
-        </div>
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+</head>
 
-        <div class="card-body">
-            <form method="POST"
-                action="{{ route('login') }}"
-                class="needs-validation"
-                novalidate="">
-                @csrf
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email"
-                        class="form-control @error('email')
-                        is-invalid
-                    @enderror"
-                        name="email" tabindex="1" autofocus>
-                    @error('email')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+<body>
+    <div id="app">
+        <section class="section">
+            <div class="d-flex align-items-stretch flex-wrap">
+                <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white">
+                    <div class="m-3 p-4">
+                        <img src="{{ asset('img/cappucino.jpeg') }}" alt="logo" width="200px"
+                            class="shadow-light rounded-circle mb-5 mt-2">
+                        <h4 class="text-dark font-weight-normal">Welcome to <span
+                                class="font-weight-bold">MyKedai</span>
+                        </h4>
+                        <p class="text-muted">Before you get started, you must login.</p>
+                        <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
+                            @csrf
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" type="email"
+                                    class="form-control @error('email')
+                                    is-invalid
+                                @enderror"
+                                    name="email" tabindex="1" autofocus>
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <div class="invalid-feedback">
+                                    Please fill in your email
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="d-block">
+                                    <label for="password" class="control-label">Password</label>
+
+                                </div>
+                                <input id="password" type="password"
+                                    class="form-control @error('password')
+                                    is-invalid
+                                @enderror"
+                                    name="password" tabindex="2">
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    @enderror
+                                    <div class="invalid-feedback">
+                                        please fill in your password
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="remember" class="custom-control-input"
+                                            tabindex="3" id="remember-me">
+                                        <label class="custom-control-label" for="remember-me">Remember Me</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                        Login
+                                    </button>
+                                </div>
+                        </form>
+
+                        <div class="text-small mt-5 text-center">
+                            Copyright &copy; Your Company. Crafted with 💙 by Arya
+                            <div class="mt-2">
+                                <a href="#">Privacy Policy</a>
+                                <div class="bullet"></div>
+                                <a href="#">Terms of Service</a>
+                            </div>
                         </div>
-                    @enderror
-                    <div class="invalid-feedback">
-                        Please fill in your email
                     </div>
                 </div>
+                <div class="col-lg-8 col-12 order-lg-2 min-vh-100 background-walk-y position-relative overlay-gradient-bottom order-1"
+                    data-background="{{ asset('img/kedaikopi.png') }}">
+                    <div class="absolute-bottom-left index-2">
+                        <div class="text-light p-5 pb-2">
+                            <div class="mb-5 pb-3">
+                                <h1 class="display-4 font-weight-bold mb-2">Welcome to MyKedai</h1>
+                                <h5 class="font-weight-normal text-muted-transparent">Jl, xxxxxxx</h5>
+                            </div>
 
-                <div class="form-group">
-                    <div class="d-block">
-                        <label for="password"
-                            class="control-label">Password</label>
-                        <div class="float-right">
-                            <a href="auth-forgot-password.html"
-                                class="text-small">
-                                Forgot Password?
-                            </a>
                         </div>
                     </div>
-                    <input id="password" type="password"
-                        class="form-control @error('password')
-                        is-invalid
-                    @enderror"
-                        name="password" tabindex="2">
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        @enderror
-                    <div class="invalid-feedback">
-                        please fill in your password
-                    </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox"
-                            name="remember"
-                            class="custom-control-input"
-                            tabindex="3"
-                            id="remember-me">
-                        <label class="custom-control-label"
-                            for="remember-me">Remember Me</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit"
-                        class="btn btn-primary btn-lg btn-block"
-                        tabindex="4">
-                        Login
-                    </button>
-                </div>
-            </form>
-        </div>
+            </div>
+        </section>
     </div>
-    <div class="text-muted mt-5 text-center">
-        Don't have an account? <a href="{{ route('register') }}">Create One</a>
-    </div>
-@endsection
 
-@push('scripts')
+    <!-- General JS Scripts -->
+    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('library/popper.js/dist/umd/popper.js') }}"></script>
+    <script src="{{ asset('library/tooltip.js/dist/umd/tooltip.js') }}"></script>
+    <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('js/stisla.js') }}"></script>
+
     <!-- JS Libraies -->
 
     <!-- Page Specific JS File -->
-@endpush
+
+    <!-- Template JS File -->
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+</body>
+
+</html>

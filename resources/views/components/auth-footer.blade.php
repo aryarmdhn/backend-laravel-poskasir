@@ -1,3 +1,3 @@
   <div class="simple-footer">
-      Copyright &copy; Stisla 2018
+      2024 MyPos Copyright &copy; Crafted By Arya
   </div>

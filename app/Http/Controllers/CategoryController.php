@@ -28,14 +28,14 @@ class CategoryController extends Controller
         $category = new Category;
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->save();
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $image->storeAs('public/categories', $category->id . '.' . $image->getClientOriginalExtension());
-            $category->image = 'storage/categories/' . $category->id . '.' . $image->getClientOriginalExtension();
-            $category->save();
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/categories', $filename);
+            $category->image = $filename;
         }
+    
+        $category->save();
 
         return redirect()->route('categories.index')->with('success', 'Category berhasil di buat');
     }
@@ -61,14 +61,15 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->save();
+        
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $image->storeAs('public/categories', $category->id . '.' . $image->getClientOriginalExtension());
-            $category->image = 'storage/categories/' . $category->id . '.' . $image->getClientOriginalExtension();
-            $category->save();
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/categories', $filename);
+            $category->image = $filename;
         }
+    
+        $category->save();
 
         return redirect()->route('categories.index')->with('success', 'Category berhasil Di Edit!');
     }
